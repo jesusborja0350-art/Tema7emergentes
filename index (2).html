@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tendencias Emergentes en Arquitectura · Grupo 7</title>
+<style>
+:root{--bg:#0b1220;--panel:#121b2e;--panel2:#0f1729;--text:#e7ecf5;--muted:#9aa7bd;--a:#5b8cff;--a2:#33d6a6;--border:#1f2c46;--code:#0a0f1c;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f5f7fb;--panel:#fff;--panel2:#eef1f8;--text:#101828;--muted:#5b6472;--a:#3b5fd9;--a2:#0f9d6d;--border:#dde3ee;--code:#eef1f8;}}
+:root[data-theme="dark"]{--bg:#0b1220;--panel:#121b2e;--panel2:#0f1729;--text:#e7ecf5;--muted:#9aa7bd;--a:#5b8cff;--a2:#33d6a6;--border:#1f2c46;--code:#0a0f1c;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#stage{padding:22px 18px 40px}
+.wrap{max-width:880px;margin:0 auto}
+section{padding:34px 0;border-bottom:1px solid var(--border)}
+section:last-child{border-bottom:none}
+.num{color:var(--a2);font-weight:700;font-size:.75rem;letter-spacing:.08em}
+h1{font-size:1.6rem;margin:.3em 0}
+h2{font-size:1.25rem;border-left:4px solid var(--a);padding-left:10px;margin-top:4px}
+h3{font-size:1rem;color:var(--a2);margin:0 0 6px}
+.hero{background:linear-gradient(135deg,var(--panel),var(--panel2));border-radius:16px;padding:24px 20px}
+.tag{display:inline-block;background:var(--panel2);border:1px solid var(--border);color:var(--a2);font-size:.7rem;padding:3px 10px;border-radius:12px}
+.stats{display:flex;gap:18px;margin-top:14px}
+.stats div{text-align:center}
+.stats b{display:block;font-size:1.2rem;color:var(--a)}
+.stats span{font-size:.7rem;color:var(--muted)}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pick button{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:10px 14px;font-size:1.3rem;cursor:pointer;min-width:84px}
+.pick button span{font-size:.72rem;color:var(--muted)}
+.pick button:hover{border-color:var(--a)}
+.pick button.hl{border-color:var(--a2)}
+.pick button.hl span{color:var(--a2)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:13px}
+.tl{border-left:2px solid var(--border);margin:14px 0 0 10px;padding-left:18px}
+.tl>div{position:relative;margin-bottom:14px}
+.tl>div::before{content:'';position:absolute;left:-23px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--a)}
+.tl span{color:var(--a2);font-size:.75rem;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th,td{border:1px solid var(--border);padding:5px 7px;text-align:left}
+th{background:var(--panel2)}
+.overflow{overflow-x:auto}
+code,.mono{font-family:Consolas,monospace;background:var(--code);padding:1px 5px;border-radius:4px;font-size:.85em}
+svg{max-width:100%;height:auto}
+button.act2{background:var(--a);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:.82rem;cursor:pointer;margin:2px}
+button.act2.sec{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+select{background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.82rem}
+.regs,.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;font-size:.76rem}
+.reg{background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:5px;text-align:center}
+.reg b{display:block;color:var(--muted);font-size:.68rem}
+.pc-line{background:rgba(91,140,255,.15);border-left:3px solid var(--a)}
+.log{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:8px;height:100px;overflow-y:auto;font-size:.76rem;font-family:monospace}
+#g-q{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);color:var(--text);margin-bottom:8px}
+dl{display:grid;grid-template-columns:140px 1fr;gap:4px 10px;font-size:.82rem}
+dt{color:var(--a2);font-weight:700}
+dd{margin:0 0 6px}
+.note{background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--a2);border-radius:10px;padding:11px;margin-top:9px;font-size:.82rem}
+/* chip 3D */
+#scene{width:100%;height:260px;perspective:900px;display:flex;align-items:center;justify-content:center;margin-top:16px;touch-action:none;cursor:grab}
+#scene:active{cursor:grabbing}
+#cube{width:140px;height:140px;position:relative;transform-style:preserve-3d;transform:rotateX(-20deg) rotateY(30deg);animation:spin 14s linear infinite}
+#scene.drag #cube{animation:none}
+@keyframes spin{to{transform:rotateX(-20deg) rotateY(390deg)}}
+.face{position:absolute;width:140px;height:140px;background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--a);border-radius:10px;
+display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:.8rem;font-weight:700;color:var(--a2);box-shadow:inset 0 0 20px rgba(91,140,255,.15)}
+.face span{display:block;font-size:.65rem;color:var(--muted);font-weight:400;margin-top:3px}
+.f1{transform:translateZ(70px)}
+.f2{transform:rotateY(180deg) translateZ(70px)}
+.f3{transform:rotateY(90deg) translateZ(70px)}
+.f4{transform:rotateY(-90deg) translateZ(70px)}
+.f5{transform:rotateX(90deg) translateZ(70px)}
+.f6{transform:rotateX(-90deg) translateZ(70px)}
+.hint{text-align:center;color:var(--muted);font-size:.72rem;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="stage"><div class="wrap">
+
+<section id="inicio"><div class="hero">
+<span class="tag">ARQUITECTURA DE COMPUTADORES 2026 · GRUPO 7</span>
+<h1>Tendencias Emergentes en Arquitectura</h1>
+<p>Computación cuántica, edge computing, arquitecturas heterogéneas e IA aplicada al hardware — con un simulador práctico de instrucciones RISC-V.</p>
+<div id="scene"><div id="cube">
+<div class="face f1">CPU<span>control</span></div>
+<div class="face f2">GPU<span>paralelo</span></div>
+<div class="face f3">NPU<span>IA</span></div>
+<div class="face f4">DSP<span>señales</span></div>
+<div class="face f5">RISC-V<span>ISA abierto</span></div>
+<div class="face f6">Qubit<span>cuántico</span></div>
+</div></div>
+<p class="hint">🧊 Arrastra el chip para rotarlo — representa un SoC heterogéneo</p>
+<p style="margin-top:14px;color:var(--muted);font-size:.82rem">Toca una tendencia para ir directo a ese tema:</p>
+<div class="pick" id="pickRow">
+<button data-jump="cuantica">⚛️<span>Cuántica</span></button>
+<button data-jump="edge">🌐<span>Edge</span></button>
+<button data-jump="heterog">🧠<span>Heterogéneas</span></button>
+<button data-jump="iahw">🤖<span>IA + HW</span></button>
+<button data-jump="riscv" class="hl">⚙️<span>RISC-V</span></button>
+</div>
+</div></section>
+
+<section id="metodologia"><span class="num">01</span><h2>Introducción y metodología</h2><div class="grid">
+<div class="card"><h3>Objetivo</h3><p>Explicar las tendencias emergentes de la arquitectura de computadores y su relación con RISC-V, apoyados en recursos interactivos.</p></div>
+<div class="card"><h3>Criterios</h3><p>Computación cuántica, edge computing, arquitecturas heterogéneas, IA aplicada al hardware y el ISA abierto RISC-V.</p></div>
+<div class="card"><h3>Fuentes</h3><p>Documentación de RISC-V International, papers de IEEE/Nature y el texto de Patterson & Hennessy.</p></div>
+<div class="card"><h3>Alcance</h3><p>El simulador RISC-V es didáctico y simplificado; no reemplaza un simulador de ciclo completo como Ripes o QEMU.</p></div>
+</div></section>
+
+<section id="evolucion"><span class="num">02</span><h2>Evolución de las tendencias</h2><div class="tl">
+<div><span>1980s</span><h3>Nace el concepto RISC</h3><p>Patterson y Hennessy proponen instrucciones simples y de ciclo único frente al CISC dominante.</p></div>
+<div><span>1990s–2000s</span><h3>Bases teóricas de la computación cuántica</h3><p>Algoritmos de Shor y Grover muestran el potencial teórico de los qubits.</p></div>
+<div><span>2010–2014</span><h3>Auge del IoT y nace RISC-V</h3><p>Crece la necesidad de cómputo en el borde; UC Berkeley libera el ISA abierto RISC-V (2014).</p></div>
+<div><span>2015–2020</span><h3>SoCs heterogéneos mainstream</h3><p>Apple, Qualcomm y otros combinan CPU+GPU+NPU en un mismo chip para móviles.</p></div>
+<div><span>2020–2026</span><h3>Convergencia IA-hardware-edge</h3><p>La IA se usa para diseñar chips, los procesadores cuánticos escalan y el edge adopta IA ligera.</p></div>
+</div></section>
+
+<section id="cuantica"><span class="num">03 · TEMA</span><h2>⚛️ Computación cuántica</h2><div class="card">
+<p>Usa <b>qubits</b> en lugar de bits binarios. Gracias a la superposición y el entrelazamiento, un qubit puede representar 0 y 1 simultáneamente, lo que permite explorar múltiples estados en paralelo para ciertos problemas. Por eso se ve como un complemento a la computación clásica, no un reemplazo.</p>
+<div class="grid"><div class="card"><h3>Ejemplo real</h3><p>IBM Quantum y Google (procesador Willow) superan los 100 qubits físicos, priorizando ahora la corrección de errores.</p></div>
+<div class="card"><h3>Avance a 2026</h3><p>Foco en qubits lógicos y arquitecturas híbridas clásico-cuánticas para IA y química computacional.</p></div></div></div>
+<div class="card overflow"><h3>Bit vs qubit</h3><table><tr><th>Característica</th><th>Bit</th><th>Qubit</th></tr>
+<tr><td>Estados</td><td>0 o 1</td><td>Superposición</td></tr><tr><td>Estabilidad</td><td>Alta</td><td>Sensible al ruido</td></tr>
+<tr><td>Uso típico</td><td>Cómputo general</td><td>Optimización, criptografía</td></tr></table></div></section>
+
+<section id="edge"><span class="num">04 · TEMA</span><h2>🌐 Edge computing</h2><div class="card">
+<p>Procesa los datos <b>cerca de donde se generan</b> (sensores, cámaras, IoT) en lugar de enviarlos a un centro de datos remoto. El cómputo se distribuye en nodos intermedios junto a la fuente de los datos. Esto reduce la latencia, el consumo de ancho de banda y mejora la privacidad.</p>
+<svg viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg">
+<style>.n{fill:var(--panel2);stroke:var(--a);stroke-width:2}.tt{fill:var(--text);font-size:12px;font-family:sans-serif;text-anchor:middle}.l{stroke:var(--a2);stroke-width:2;fill:none}</style>
+<rect class="n" x="10" y="60" width="110" height="50" rx="8"/><text class="tt" x="65" y="90">Dispositivo IoT</text>
+<rect class="n" x="150" y="60" width="110" height="50" rx="8"/><text class="tt" x="205" y="90">Nodo Edge</text>
+<rect class="n" x="290" y="10" width="110" height="50" rx="8"/><text class="tt" x="345" y="40">Análisis local (IA)</text>
+<rect class="n" x="460" y="60" width="160" height="50" rx="8"/><text class="tt" x="540" y="90">Nube</text>
+<line class="l" x1="120" y1="85" x2="150" y2="85"/><line class="l" x1="260" y1="75" x2="290" y2="40"/><line class="l" x1="400" y1="40" x2="460" y2="75"/>
+</svg></div>
+<div class="grid"><div class="card"><h3>Ejemplo real</h3><p>Cámaras con NPU (NVIDIA Jetson) que detectan objetos localmente y solo envían alertas relevantes.</p></div>
+<div class="card"><h3>Avance a 2026</h3><p>Modelos de IA generativa ligera ejecutándose directamente en el borde.</p></div></div></section>
+
+<section id="heterog"><span class="num">05 · TEMA</span><h2>🧠 Arquitecturas heterogéneas</h2><div class="card">
+<p>Combinan distintos tipos de núcleos y aceleradores especializados —CPU, GPU, NPU, DSP— en un mismo chip (SoC), asignando cada tarea al procesador más eficiente para ella. Cada tipo de carga se resuelve mejor con hardware diseñado específicamente para ella. El resultado es mayor eficiencia energética.</p></div>
+<div class="card overflow"><h3>Comparación de unidades</h3><table><tr><th>Unidad</th><th>Fortaleza</th><th>Uso típico</th></tr>
+<tr><td>CPU</td><td>Lógica, control</td><td>SO, tareas generales</td></tr><tr><td>GPU</td><td>Paralelismo masivo</td><td>Gráficos, entrenar IA</td></tr>
+<tr><td>NPU</td><td>Inferencia eficiente</td><td>IA on-device</td></tr><tr><td>DSP</td><td>Señales</td><td>Audio, radio</td></tr></table></div>
+<div class="grid"><div class="card"><h3>Ejemplo real</h3><p>Apple Silicon (M-series) y Qualcomm Snapdragon integran núcleos de rendimiento y eficiencia, GPU y NPU dedicada para IA on-device.</p></div>
+<div class="card"><h3>Avance a 2026</h3><p>Chiplets interconectados (UCIe) que permiten mezclar módulos de distintos fabricantes en un mismo paquete.</p></div></div></section>
+
+<section id="iahw"><span class="num">06 · TEMA</span><h2>🤖 IA aplicada al hardware</h2><div class="card">
+<p>La IA no solo se ejecuta <i>sobre</i> el hardware: también se usa <b>para diseñarlo</b>. Herramientas de EDA asistidas por IA optimizan el ruteo de transistores, el consumo energético y la disposición física de los circuitos. Al mismo tiempo, el hardware evoluciona para acelerar mejor a la propia IA, cerrando un ciclo donde ambas se potencian.</p>
+<div class="grid"><div class="card"><h3>Ejemplo real</h3><p>Google usó aprendizaje por refuerzo para el floorplanning de sus chips TPU; NVIDIA usa IA para asistir el diseño de los propios chips.</p></div>
+<div class="card"><h3>Avance a 2026</h3><p>Copilotos de IA integrados en flujos de diseño de hardware (verificación de RTL, generación de testbenches).</p></div></div></div></section>
+
+<section id="riscv"><span class="num">07 · OBLIGATORIO</span><h2>⚙️ Simulador de instrucciones RISC-V</h2><div class="card">
+<p>RISC-V es un <b>ISA abierto</b> de tipo RISC: instrucciones simples, de longitud fija, ejecutadas en un ciclo. A diferencia de x86 (propietario, CISC), cualquiera puede diseñar o fabricar un chip RISC-V sin pagar licencias. Es la base de muchos aceleradores edge e IoT actuales.</p>
+<label>Programa: </label><select id="progSel" onchange="loadProgram(this.value)">
+<option value="0">1. Suma de dos números</option><option value="1">2. Bucle contador</option><option value="2">3. Acceso a memoria</option></select>
+<div class="grid" style="margin-top:12px"><div><h3>Código</h3><div class="overflow"><table id="codeTable"></table></div></div>
+<div><h3>Registros</h3><div class="regs" id="regsView"></div><h3>Memoria</h3><div class="mem" id="memView"></div></div></div>
+<div style="margin-top:10px"><button class="act2" onclick="stepSim()">▶ Ejecutar siguiente instrucción</button><button class="act2 sec" onclick="resetSim()">⟲ Reiniciar</button></div>
+<h3 style="margin-top:14px">Registro de ejecución</h3><div class="log" id="logView"></div></div></section>
+
+
+<section id="analisis"><span class="num">08</span><h2>Análisis y conclusiones</h2><div class="grid">
+<div class="card"><h3>Apertura</h3><p>RISC-V demuestra que un ISA abierto puede competir con los estándares propietarios.</p></div>
+<div class="card"><h3>Especialización</h3><p>Las arquitecturas heterogéneas y la IA en edge muestran que "un solo procesador para todo" ya no es la norma.</p></div>
+<div class="card"><h3>Ciclo IA-hardware</h3><p>La IA diseña mejor hardware, y ese hardware acelera mejor a la IA.</p></div>
+<div class="card"><h3>Horizonte</h3><p>La computación cuántica sigue siendo un complemento a futuro, no un reemplazo inmediato.</p></div></div>
+<div class="note"><b>Limitaciones:</b> el simulador RISC-V es didáctico y no modela pipeline, caché ni excepciones reales.</div>
+<div class="note"><b>Uso de IA:</b> se usó IA generativa (ChatGPT, Claude, Gemini) para investigar, redactar y generar el código de este portal y del simulador; el grupo revisó y validó el contenido antes de entregarlo.</div></section>
+
+<section id="fuentes"><span class="num">09</span><h2>Fuentes</h2><ul>
+<li><a href="https://www.cambridge.org/" target="_blank">Nielsen & Chuang — Quantum Computation and Quantum Information</a></li>
+<li><a href="https://riscv.org" target="_blank">RISC-V International — Instruction Set Manual</a></li>
+<li><a href="https://ieeexplore.ieee.org/" target="_blank">Shi et al. — Edge Computing: Vision and Challenges (IEEE IoT Journal)</a></li>
+<li><a href="https://www.nature.com/" target="_blank">Google Research — A graph placement methodology for fast chip design (Nature)</a></li>
+<li><a href="https://www.elsevier.com/" target="_blank">Patterson & Hennessy — Computer Organization and Design (RISC-V Edition)</a></li>
+</ul></section>
+
+</div></div>
+
+<script>
+document.getElementById('pickRow').addEventListener('click',e=>{const b=e.target.closest('button[data-jump]');if(!b)return;
+document.getElementById(b.dataset.jump).scrollIntoView({behavior:'smooth',block:'start'});});
+
+/* ---- Cubo 3D arrastrable ---- */
+(function(){
+const scene=document.getElementById('scene'),cube=document.getElementById('cube');
+let dragging=false,lastX=0,lastY=0,rx=-20,ry=30;
+function setT(){cube.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;}
+function start(x,y){dragging=true;lastX=x;lastY=y;scene.classList.add('drag');}
+function move(x,y){if(!dragging)return;ry+=(x-lastX)*0.4;rx-=(y-lastY)*0.4;lastX=x;lastY=y;setT();}
+function end(){dragging=false;}
+scene.addEventListener('mousedown',e=>start(e.clientX,e.clientY));
+addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+addEventListener('mouseup',end);
+scene.addEventListener('touchstart',e=>{const t=e.touches[0];start(t.clientX,t.clientY);},{passive:true});
+scene.addEventListener('touchmove',e=>{const t=e.touches[0];move(t.clientX,t.clientY);},{passive:true});
+scene.addEventListener('touchend',end);
+})();
+
+/* ---- Simulador RISC-V ---- */
+const programs=[
+{name:"Suma",code:[{op:'ADDI',a:'x1',b:'x0',imm:5,txt:'addi x1, x0, 5'},{op:'ADDI',a:'x2',b:'x0',imm:7,txt:'addi x2, x0, 7'},{op:'ADD',a:'x3',b:'x1',c:'x2',txt:'add  x3, x1, x2'}]},
+{name:"Bucle",code:[{op:'ADDI',a:'x1',b:'x0',imm:0,txt:'addi x1, x0, 0      # i=0'},{op:'ADDI',a:'x2',b:'x0',imm:3,txt:'addi x2, x0, 3      # límite'},{op:'BEQ',a:'x1',b:'x2',target:5,txt:'beq  x1, x2, fin'},{op:'ADDI',a:'x1',b:'x1',imm:1,txt:'addi x1, x1, 1      # i++'},{op:'JAL',target:2,txt:'jal  x0, loop'},{op:'ADDI',a:'x3',b:'x0',imm:99,txt:'addi x3, x0, 99     # fin'}]},
+{name:"Memoria",code:[{op:'ADDI',a:'x1',b:'x0',imm:42,txt:'addi x1, x0, 42'},{op:'SW',a:'x1',addr:0,txt:'sw   x1, 0(x0)'},{op:'LW',a:'x2',addr:0,txt:'lw   x2, 0(x0)'},{op:'ADDI',a:'x3',b:'x2',imm:8,txt:'addi x3, x2, 8'}]}
+];
+let regs,mem,pc,prog,halted,log;
+function loadProgram(i){prog=programs[i];regs=new Array(8).fill(0);mem=new Array(8).fill(0);pc=0;halted=false;log=[];rC();rR();rM();rL();}
+function rC(){document.getElementById('codeTable').innerHTML='<tr><th>#</th><th>Instrucción</th></tr>'+prog.code.map((c,i)=>`<tr class="${i===pc?'pc-line':''}"><td>${i}</td><td class="mono">${c.txt}</td></tr>`).join('');}
+function rR(){document.getElementById('regsView').innerHTML=regs.map((v,i)=>`<div class="reg"><b>x${i}</b>${v}</div>`).join('');}
+function rM(){document.getElementById('memView').innerHTML=mem.map((v,i)=>`<div class="reg"><b>mem[${i}]</b>${v}</div>`).join('');}
+function rL(){const t=document.getElementById('logView');t.innerHTML=log.map(l=>`<div>${l}</div>`).join('');t.scrollTop=t.scrollHeight;}
+function rn(r){return parseInt(r.slice(1));}
+function stepSim(){if(halted||pc>=prog.code.length){log.push('⏹ Programa finalizado.');rL();return;}
+const c=prog.code[pc];let np=pc+1;
+switch(c.op){
+case'ADDI':regs[rn(c.a)]=regs[rn(c.b)]+c.imm;log.push(`PC${pc}: ${c.txt} → x${rn(c.a)}=${regs[rn(c.a)]}`);break;
+case'ADD':regs[rn(c.a)]=regs[rn(c.b)]+regs[rn(c.c)];log.push(`PC${pc}: ${c.txt} → x${rn(c.a)}=${regs[rn(c.a)]}`);break;
+case'BEQ':if(regs[rn(c.a)]===regs[rn(c.b)]){np=c.target;log.push(`PC${pc}: ${c.txt} → igual, salta a ${c.target}`);}else{log.push(`PC${pc}: ${c.txt} → distinto, continúa`);}break;
+case'JAL':np=c.target;log.push(`PC${pc}: ${c.txt} → salta a ${c.target}`);break;
+case'SW':mem[c.addr]=regs[rn(c.a)];log.push(`PC${pc}: ${c.txt} → mem[${c.addr}]=${mem[c.addr]}`);break;
+case'LW':regs[rn(c.a)]=mem[c.addr];log.push(`PC${pc}: ${c.txt} → x${rn(c.a)}=${regs[rn(c.a)]}`);break;}
+pc=np;if(pc>=prog.code.length)halted=true;rC();rR();rM();rL();}
+function resetSim(){loadProgram(document.getElementById('progSel').value);}
+loadProgram(0);
+</script>
+</body>
+</html>
